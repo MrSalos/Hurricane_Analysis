@@ -30,22 +30,41 @@ def update_dmg(damage_cost_list):
 
     for cost in damage_cost_list:
         if cost == 'Damages not recorded':
-            updated_damages.append(cost)
+            updated_damages.append(None)
         else:
             updated_damages.append(float(cost[:-1]) * conversion[cost[-1]])
     
     return updated_damages
 
-# print(update_dmg(damages))
+# print(update_dmg(damages)[:10])
 
 
 
 # write your construct hurricane dictionary function here:
 
+def construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths):
+    '''
+    This function will organize all the lists into a dictionary.
+    The keys are the names of the hurricanes and the values are all the information related to that hurricane stored into another dictionary.
+    '''
 
+    hurricanes_dictionary = {}
 
+    for i, name in enumerate(names):
+        hurricanes_dictionary[name] = {
+            'Name': names[i],
+            'Month': months[i],
+            'Year': years[i],
+            'Max Sustained Wind': max_sustained_winds[i],
+            'Areas Affected': areas_affected[i],
+            'Damages': update_dmg(damages)[i],            #This will call the update_dmg function to return the damages as floats
+            'Deaths': deaths[i]
+        }
+    
+    return hurricanes_dictionary
 
-
+# print(list(construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths).items())[:5]) #Print the first 5 items from the dictionary
+print(construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths)['San Felipe II Okeechobee'].keys())
 
 
 # write your construct hurricane by year dictionary function here:
