@@ -63,40 +63,64 @@ def construct_hurricane_dict(names, months, years, max_sustained_winds, areas_af
     
     return hurricanes_dictionary
 
-# print(list(construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths).items())[:5]) #Print the first 5 items from the dictionary
-print(construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths)['San Felipe II Okeechobee'].keys())
+hurriace_dict = construct_hurricane_dict(names, months, years, max_sustained_winds, areas_affected, damages, deaths)  # Constructing hurricane dictionary
 
 
 # write your construct hurricane by year dictionary function here:
+def construct_hurricane_by_year(hurricane_dictionary):
+    """
+    return a new dictionary of hurricanes using the years as keys.
+    Takes one parameter which is the return value of the construct_hurricane_dict
+    """    
+    name = list(hurricane_dictionary.keys())
+    year = [hurricane_dictionary[hurricane]['Year'] for hurricane in hurricane_dictionary.keys()]
+    year_dict = {}
 
+    for i, year in enumerate(year):
+        if year in year_dict:
+            year_dict[year].append(hurricane_dictionary[name[i]])
+        else:
+            year_dict[year] = []
+            year_dict[year].append(hurricane_dictionary[name[i]])
 
-
-
-
+    return year_dict
 
 
 # write your count affected areas function here:
+def affectation_per_area():
+    
+    areas_affected_dict = {}
 
+    for region in areas_affected:
+        for area in region:
+            if area in areas_affected_dict:
+                areas_affected_dict[area] += 1
+            else:
+                areas_affected_dict[area] = 1
+            
+    return areas_affected_dict
 
-
-
-
-
+print(affectation_per_area()['yucatn peninsula'.title()])
 
 # write your find most affected area function here:
+def most_affected(areas_affected_dict):
+    most_affected_area = max(areas_affected_dict, key= areas_affected_dict.get)
+    return most_affected_area
 
-
-
-
-
+print(f'The area that has presented most damage is {most_affected(affectation_per_area())} the total amount of hurricanes that passed through this area is {affectation_per_area()[most_affected(affectation_per_area())]}')    
 
 
 # write your greatest number of deaths function here:
+def greatest_num_deaths():
 
+    death_dict = {name: num_death for name, num_death in zip(names, deaths)}
 
+    cane_name = max(death_dict, key=death_dict.get)
+    total_deaths = death_dict[cane_name]
 
+    return cane_name
 
-
+print(f"the most deadly hurricane is the {greatest_num_deaths()} which caused a total of {hurriace_dict[greatest_num_deaths()]['Deaths']}")
 
 
 # write your catgeorize by mortality function here:
