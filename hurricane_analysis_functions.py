@@ -100,14 +100,13 @@ def affectation_per_area():
             
     return areas_affected_dict
 
-print(affectation_per_area()['yucatn peninsula'.title()])
 
 # write your find most affected area function here:
 def most_affected(areas_affected_dict):
     most_affected_area = max(areas_affected_dict, key= areas_affected_dict.get)
     return most_affected_area
 
-print(f'The area that has presented most damage is {most_affected(affectation_per_area())} the total amount of hurricanes that passed through this area is {affectation_per_area()[most_affected(affectation_per_area())]}')    
+print(f'The area that has presented most damage is {most_affected(affectation_per_area())}. The total amount of hurricanes that passed through this area is {affectation_per_area()[most_affected(affectation_per_area())]}')    
 
 
 # write your greatest number of deaths function here:
@@ -124,19 +123,97 @@ print(f"the most deadly hurricane is the {greatest_num_deaths()} which caused a 
 
 
 # write your catgeorize by mortality function here:
+def mortality_category():
 
+    mortality_scale = {
+        0: 0,
+        1: 100,
+        2: 500,
+        3: 1000,
+        4: 10000
+    }
 
+    hurricanes_by_mortality = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: []
+    }
 
+    for name, death in zip(names, deaths):
+        if death == mortality_scale[0]:
+            hurricanes_by_mortality[0].append(name)
+        elif death <= mortality_scale[1]:
+            hurricanes_by_mortality[1].append(name)
+        elif death <= mortality_scale[2]:
+            hurricanes_by_mortality[2].append(name)
+        elif death <= mortality_scale[3]:
+            hurricanes_by_mortality[3].append(name)
+        elif death <= mortality_scale[4]:
+            hurricanes_by_mortality[4].append(name)
+        else:
+            hurricanes_by_mortality[5].append(name)
+    
+    return hurricanes_by_mortality
 
-
-
+hurricane_tiers = mortality_category()
+print(hurricane_tiers)
 
 # write your greatest damage function here:
 
+def greatest_dmg(hurricanes):
+    hurricane_name = ""
+    total_damage = 0
+    
+    for hurricane in hurricanes:
+        if hurricanes[hurricane]['Damages'] == None:
+            continue
+        if hurricanes[hurricane]['Damages'] > total_damage: 
+            total_damage = hurricanes[hurricane]['Damages']
+            hurricane_name =  hurricanes[hurricane]['Name']
 
+    return hurricane_name, total_damage
 
+most_dmg_name, most_dmg_count = greatest_dmg(hurriace_dict)
+print(most_dmg_name, most_dmg_count)
 
+# write your categorize by damage function here:
 
+def dmg_category(hurricanes):
 
+    dmg_scale = {
+        1: 100000000,
+        2: 1000000000,
+        3: 10000000000,
+        4: 50000000000
+    }
 
-# write your catgeorize by damage function here:
+    dmg_category_dict = {
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+        5: {}
+    }
+
+    for hurricane in hurricanes:
+        if hurricanes[hurricane]['Damages'] == None:
+            continue
+        if hurricanes[hurricane]['Damages'] < dmg_scale[1]:
+            dmg_category_dict[1][hurricane] = hurricanes[hurricane]
+        elif hurricanes[hurricane]['Damages'] < dmg_scale[2]:
+            dmg_category_dict[2][hurricane] = hurricanes[hurricane]
+        elif hurricanes[hurricane]['Damages'] < dmg_scale[3]:
+            dmg_category_dict[3][hurricane] = hurricanes[hurricane]
+        elif hurricanes[hurricane]['Damages'] < dmg_scale[4]:
+            dmg_category_dict[4][hurricane] = hurricanes[hurricane]
+        else:
+            dmg_category_dict[5][hurricane] = hurricanes[hurricane]
+        
+    return dmg_category_dict
+
+tiers = dmg_category(hurriace_dict)
+
+print(tiers)
